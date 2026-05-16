@@ -1,4 +1,6 @@
 <div align="center">
+  <img src="assets/logo/lance-logo.webp" alt="Lance logo" width="360">
+
   <h2 align="center">Lance: Unified Multimodal Modeling by Multi-Task Synergy</h2>
   <p>
     <strong>
@@ -555,7 +557,7 @@ Ready-to-run benchmark scripts are provided under `benchmarks/`:
 
 Copyright 2025 Bytedance Ltd. and/or its affiliates.
 
-## Citation 💖
+## 💖 Citation
 
 If you find Lance useful for your project or research, welcome to 🌟 this repo and cite our work using the following BibTeX:
 

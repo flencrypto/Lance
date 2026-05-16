@@ -1,4 +1,6 @@
 <div align="center">
+  <img src="assets/logo/lance-logo.webp" alt="Lance logo" width="360">
+
   <h2 align="center">Lance: Unified Multimodal Modeling by Multi-Task Synergy</h2>
   <p>
     <strong>
@@ -555,7 +557,7 @@ python lance_gradio_t2v_v2t.py --gpus 0 --server-port 7860
 
 Copyright 2025 Bytedance Ltd. and/or its affiliates.
 
-## 引用 💖
+## 💖 引用
 
 如果 Lance 对您的项目或研究有帮助，欢迎 🌟 本仓库，并使用以下 BibTeX 引用我们的工作：
 
