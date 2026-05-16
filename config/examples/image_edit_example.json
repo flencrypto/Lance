@@ -1,0 +1,36 @@
+{
+  "0001": {
+    "interleave_array": [
+      "Change background from marble bathroom to outdoor scene with buildings and stacked items",
+      "config/examples/image_edit_examples/index000000_cond1.jpg",
+      "config/examples/image_edit_examples/index000000_cond1.jpg"
+    ],
+    "element_dtype_array": [
+      "text",
+      "image",
+      "image"
+    ],
+    "istarget_in_interleave": [
+      0,
+      0,
+      1
+    ]
+  },
+  "0002": {
+    "interleave_array": [
+      "Change her golden hair color to dark green",
+      "config/examples/image_edit_examples/index000001_cond1.jpg",
+      "config/examples/image_edit_examples/index000001_cond1.jpg"
+    ],
+    "element_dtype_array": [
+      "text",
+      "image",
+      "image"
+    ],
+    "istarget_in_interleave": [
+      0,
+      0,
+      1
+    ]
+  }
+}

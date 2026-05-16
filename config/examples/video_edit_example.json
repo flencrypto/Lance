@@ -1,0 +1,36 @@
+{
+  "0001": {
+    "interleave_array": [
+      "change the color of the clouds to pink",
+      "config/examples/video_edit_examples/index000000_cond1.mp4",
+      "config/examples/video_edit_examples/index000000_cond1.mp4"
+    ],
+    "element_dtype_array": [
+      "text",
+      "video",
+      "video"
+    ],
+    "istarget_in_interleave": [
+      0,
+      0,
+      1
+    ]
+  },
+  "0002": {
+    "interleave_array": [
+      "Change the gull into a majestic eagle",
+      "config/examples/video_edit_examples/index000001_cond1.mp4",
+      "config/examples/video_edit_examples/index000001_cond1.mp4"
+    ],
+    "element_dtype_array": [
+      "text",
+      "video",
+      "video"
+    ],
+    "istarget_in_interleave": [
+      0,
+      0,
+      1
+    ]
+  }
+}
