@@ -1,6 +1,6 @@
 <div align="center">
   <h3 style="font-family: 'Georgia', 'Times New Roman', serif; font-style: italic; font-size: 1.5em; margin: 20px 0 15px 0;">Lance：通过原生多任务协同实现统一多模态模型</h3>
-  <p style="font-size: 1.20em; font-weight: 500; color: #666; margin: 15px 0 1px 0;">
+  <p>
     <strong>
     <a href="https://scholar.google.com.hk/citations?user=FXxoQlsAAAAJ&hl=zh-CN&oi=ao" style="text-decoration: none; color: inherit;">Fengyi Fu</a><sup>*</sup>, 
     <a href="https://corleone-huang.github.io/" style="text-decoration: none; color: inherit;">Mengqi Huang</a><sup>*,✉</sup>, 
@@ -16,19 +16,18 @@
     Zheren Fu, 
     Zhendong Mao, 
     Yongdong Zhang
-  </p>
-  <p style="font-size: 1em; margin: 15px 0; color: #666;">
+    <br>
     <em>ByteDance</em>
-  </p>
-  <p style="font-size: 0.9em; color: #777; margin: 8px 0;">
+    <br>
     <sup>*</sup> 共同一作 &nbsp;&nbsp; <sup>✉</sup> 通讯作者 &nbsp;&nbsp; <sup>§</sup> 项目负责人
   </p>
-  <p style="margin: 20px 0;">
+  <p>
     <a href="https://lance-project.github.io/" style="text-decoration: none; margin: 0 8px;"><img src="https://img.shields.io/badge/Website-Lance-blue?style=flat-square&logo=github" alt="Website"></a>
     <a href="https://lance-project.github.io/assets/lance.pdf" style="text-decoration: none; margin: 0 8px;"><img src="https://img.shields.io/badge/Paper-arXiv-red?style=flat-square&logo=arxiv" alt="arXiv"></a>
     <a href="https://huggingface.co/bytedance-research/Lance" style="text-decoration: none; margin: 0 8px;"><img src="https://img.shields.io/badge/Model-HuggingFace-yellow?style=flat-square&logo=huggingface" alt="Model"></a>
+    <br>
+    <a href="./README.md"><ins>English</ins></a> | 简体中文
   </p>
-  <h3 align="center"><a href="./README.md"><ins>English</ins></a> | 简体中文</h3>
 </div>
 
 ## 🌟 亮点
