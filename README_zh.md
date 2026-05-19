@@ -562,19 +562,23 @@ python lance_gradio_t2v_v2t.py --gpus 0 --server-port 7860
 
 Copyright 2025 Bytedance Ltd. and/or its affiliates.
 
+## 🙏 致谢
+
+我们感谢 [BAGEL](https://github.com/ByteDance-Seed/bagel)、[Qwen2.5-VL-3B-Instruct](https://huggingface.co/Qwen/Qwen2.5-VL-3B-Instruct) 和 [Wan2.2](https://github.com/Wan-Video/Wan2.2) 的贡献者，感谢他们开放的研究与社区贡献。
+
 ## 💖 引用
 
 如果 **Lance** 对您的项目或研究有帮助，欢迎 🌟 本仓库，并使用以下 BibTeX 引用我们的工作：
 
 ```bibtex
 @misc{fu2026lanceunifiedmultimodalmodeling,
-      title={Lance: Unified Multimodal Modeling by Multi-Task Synergy}, 
-      author={Fengyi Fu and Mengqi Huang and Shaojin Wu and Yunsheng Jiang and Yufei Huo and Hao Li and Yinghang Song and Fei Ding and Jianzhu Guo and Qian He and Zheren Fu and Zhendong Mao and Yongdong Zhang},
-      year={2026},
-      eprint={2605.18678},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2605.18678}, 
+      title         = {Lance: Unified Multimodal Modeling by Multi-Task Synergy},
+      author        = {Fengyi Fu and Mengqi Huang and Shaojin Wu and Yunsheng Jiang and Yufei Huo and Hao Li and Yinghang Song and Fei Ding and Jianzhu Guo and Qian He and Zheren Fu and Zhendong Mao and Yongdong Zhang},
+      year          = {2026},
+      eprint        = {2605.18678},
+      archivePrefix = {arXiv},
+      primaryClass  = {cs.CV},
+      url           = {https://arxiv.org/abs/2605.18678},
 }
 ```
 
