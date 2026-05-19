@@ -21,7 +21,7 @@ VIDEO_WIDTH=768           # unused for editing
 RESOLUTION="video_480p"   # image_768res | video_480p
 TEXT_TEMPLATE=true
 
-MODEL_PATH="downloads/lance_3b_video"
+MODEL_PATH="downloads/Lance_3B_Video"
 
 # ========================= Auto-generated Paths =========================
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
