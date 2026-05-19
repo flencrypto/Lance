@@ -6,9 +6,6 @@
 
 set -euo pipefail  # 启用严格模式，任何错误立即退出
 
-# 禁用 pkg_resources 弃用警告
-export PYTHONWARNINGS="ignore::UserWarning:wandb.apis.public"
-
 # --- 配置区 ---
 PYTHON=${1:-python3}
 TIMEOUT=300

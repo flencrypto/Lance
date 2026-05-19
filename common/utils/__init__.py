@@ -31,14 +31,6 @@ from .tensor_ops import (
     pack,
     unpack,
 )
-from .save import (
-    get_local_dir,
-    set_local_dir,
-    get_local_path,
-    convert_dtype,
-    save,
-    dummy_indexes_searchsorted,
-)
 
 __all__ = [
     # distributed
@@ -60,11 +52,4 @@ __all__ = [
     "repeat",
     "pack",
     "unpack",
-    # save
-    "get_local_dir",
-    "set_local_dir",
-    "get_local_path",
-    "convert_dtype",
-    "save",
-    "dummy_indexes_searchsorted",
 ]
