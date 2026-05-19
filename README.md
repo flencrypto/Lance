@@ -244,7 +244,7 @@ We provide task-specific one-click commands for different generation, editing, a
 ##### Text-to-Video Generation
 
 ```bash
-bash inference_lance_my.sh \
+bash inference_lance.sh \
   --TASK_NAME t2v \
   --MODEL_PATH downloads/Lance_3B_Video \
   --RESOLUTION video_480p \
@@ -257,7 +257,7 @@ bash inference_lance_my.sh \
 ##### Text-to-Image Generation
 
 ```bash
-bash inference_lance_my.sh \
+bash inference_lance.sh \
   --TASK_NAME t2i \
   --MODEL_PATH downloads/Lance_3B \
   --RESOLUTION image_768res \
@@ -269,7 +269,7 @@ bash inference_lance_my.sh \
 ##### Video Editing
 
 ```bash
-bash inference_lance_my.sh \
+bash inference_lance.sh \
   --TASK_NAME video_edit \
   --MODEL_PATH downloads/Lance_3B_Video \
   --RESOLUTION video_480p \
@@ -279,7 +279,7 @@ bash inference_lance_my.sh \
 ##### Image Editing
 
 ```bash
-bash inference_lance_my.sh \
+bash inference_lance.sh \
   --TASK_NAME image_edit \
   --MODEL_PATH downloads/Lance_3B \
   --RESOLUTION image_768res \
@@ -289,7 +289,7 @@ bash inference_lance_my.sh \
 ##### Video Understanding
 
 ```bash
-bash inference_lance_my.sh \
+bash inference_lance.sh \
   --TASK_NAME x2t_video \
   --MODEL_PATH downloads/Lance_3B_Video \
   --RESOLUTION video_480p \
@@ -300,7 +300,7 @@ bash inference_lance_my.sh \
 ##### Image Understanding
 
 ```bash
-bash inference_lance_my.sh \
+bash inference_lance.sh \
   --TASK_NAME x2t_image \
   --MODEL_PATH downloads/Lance_3B \
   --RESOLUTION image_768res \
