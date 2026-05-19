@@ -222,9 +222,12 @@ Please download all necessary model checkpoints from [Lance-3B on Hugging Face](
 
 ## 📚 Usage
 
+
 ### Inference
 
-Lance provides a unified command-line interface for all generation / editing / understanding tasks:
+We provide a unified command-line interface for all generation / editing / understanding tasks:
+
+#### Option 1: Configure and Run the Unified Script
 
 ```bash
 bash inference_lance.sh
@@ -233,6 +236,76 @@ bash inference_lance.sh
 - Before running, please configure the inference parameters at the top of `inference_lance.sh`.
 - **Supported tasks:** `t2i`, `t2v`, `image_edit`, `video_edit`, `x2t_image`, and `x2t_video`. You can modify `TASK_DEFAULT_CONFIGS` in `inference_lance.py` to customize the default data samples for each task.
 - **Note:** For all tasks, we recommend following the `prompt` format used in the provided examples when writing input prompts, as this typically leads to better generation quality.
+
+#### Option 2: Configure and Run the Unified Script
+
+We provide task-specific one-click commands for different generation, editing, and understanding tasks.
+
+##### Text-to-Video Generation
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME t2v \
+  --MODEL_PATH downloads/Lance_3B_Video \
+  --RESOLUTION video_480p \
+  --NUM_FRAMES 121 \
+  --VIDEO_HEIGHT 480 \
+  --VIDEO_WIDTH 848 \
+  --SAVE_PATH_GEN results/t2v_121f
+```
+
+##### Text-to-Image Generation
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME t2i \
+  --MODEL_PATH downloads/Lance_3B \
+  --RESOLUTION image_768res \
+  --VIDEO_HEIGHT 768 \
+  --VIDEO_WIDTH 768 \
+  --SAVE_PATH_GEN results/t2i
+```
+
+##### Video Editing
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME video_edit \
+  --MODEL_PATH downloads/Lance_3B_Video \
+  --RESOLUTION video_480p \
+  --SAVE_PATH_GEN results/video_edit
+```
+
+##### Image Editing
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME image_edit \
+  --MODEL_PATH downloads/Lance_3B \
+  --RESOLUTION image_768res \
+  --SAVE_PATH_GEN results/image_edit
+```
+
+##### Video Understanding
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME x2t_video \
+  --MODEL_PATH downloads/Lance_3B_Video \
+  --RESOLUTION video_480p \
+  --NUM_FRAMES 50 \
+  --SAVE_PATH_GEN results/x2t_video
+```
+
+##### Image Understanding
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME x2t_image \
+  --MODEL_PATH downloads/Lance_3B \
+  --RESOLUTION image_768res \
+  --SAVE_PATH_GEN results/x2t_image
+```
 
 #### Available Tasks
 
