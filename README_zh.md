@@ -226,6 +226,8 @@ bash ./setup_env.sh
 
 Lance 为生成、编辑和理解任务提供了统一的命令行入口：
 
+#### 方式一：配置并运行统一推理脚本
+
 ```bash
 bash inference_lance.sh
 ```
@@ -233,7 +235,78 @@ bash inference_lance.sh
 - 运行前，请先在 `inference_lance.sh` 顶部配置推理参数。
 - **支持任务：** `t2i`、`t2v`、`image_edit`、`video_edit`、`x2t_image` 和 `x2t_video`。你也可以在 `inference_lance.py` 中修改 `TASK_DEFAULT_CONFIGS`，自定义每个任务默认使用的数据样例。
 - **注意：** 对于所有任务，建议在编写输入 prompt 时参考提供示例中的 `prompt` 格式，这通常有助于获得更好的生成效果。
-  
+
+
+#### Option 2: 运行任务专用一键脚本
+
+我们提供了面向不同生成、编辑和理解任务的一键启动命令，便于快速运行指定任务类型。
+
+##### 文本-视频生成
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME t2v \
+  --MODEL_PATH downloads/Lance_3B_Video \
+  --RESOLUTION video_480p \
+  --NUM_FRAMES 121 \
+  --VIDEO_HEIGHT 480 \
+  --VIDEO_WIDTH 848 \
+  --SAVE_PATH_GEN results/t2v_121f
+```
+
+##### 文本-图像生成
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME t2i \
+  --MODEL_PATH downloads/Lance_3B \
+  --RESOLUTION image_768res \
+  --VIDEO_HEIGHT 768 \
+  --VIDEO_WIDTH 768 \
+  --SAVE_PATH_GEN results/t2i
+```
+
+##### 视频编辑
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME video_edit \
+  --MODEL_PATH downloads/Lance_3B_Video \
+  --RESOLUTION video_480p \
+  --SAVE_PATH_GEN results/video_edit
+```
+
+##### 图像编辑
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME image_edit \
+  --MODEL_PATH downloads/Lance_3B \
+  --RESOLUTION image_768res \
+  --SAVE_PATH_GEN results/image_edit
+```
+
+##### 视频理解
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME x2t_video \
+  --MODEL_PATH downloads/Lance_3B_Video \
+  --RESOLUTION video_480p \
+  --NUM_FRAMES 50 \
+  --SAVE_PATH_GEN results/x2t_video
+```
+
+##### 图像理解
+
+```bash
+bash inference_lance_my.sh \
+  --TASK_NAME x2t_image \
+  --MODEL_PATH downloads/Lance_3B \
+  --RESOLUTION image_768res \
+  --SAVE_PATH_GEN results/x2t_image
+```
+
 #### 可用任务
 
 | 任务名 | 说明 | 示例 JSON |
