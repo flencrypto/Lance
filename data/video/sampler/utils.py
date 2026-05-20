@@ -13,22 +13,8 @@
 # limitations under the License.
 # coding: utf-8
 
-from .frames import (
-    AdaptiveAdvancedFrameSampler,
-    AdaptiveFrameSampler,
-    AllFrameSampler,
-    ConsecutiveFrameSampler,
-    MultiClipsFrameSampler,
-    FixedFrameSampler,
-    OnlyFirstFrameSampler,
-)
+from .frames import MultiClipsFrameSampler
 
 FRAME_SAMPLER_TYPES = {
-    "only_first_frame": OnlyFirstFrameSampler,
-    "fixed": FixedFrameSampler,
-    "all": AllFrameSampler,
-    "adaptive": AdaptiveFrameSampler,
-    "adaptive_advanced": AdaptiveAdvancedFrameSampler,
-    "range": ConsecutiveFrameSampler,
     "multi_clips": MultiClipsFrameSampler,
 }

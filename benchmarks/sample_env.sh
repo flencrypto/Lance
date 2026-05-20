@@ -52,8 +52,8 @@ lance_setup_distributed_env() {
         has_explicit_main_process_port=1
     fi
 
-    if [ -n "$ARNOLD_WORKER_NUM" ]; then
-        echo "检测到 ARNOLD 平台环境"
+    if [ -n "${ARNOLD_WORKER_NUM:-}" ]; then
+        echo "使用平台分布式环境"
         NUM_MACHINES="${NUM_MACHINES:-$ARNOLD_WORKER_NUM}"
         MACHINE_RANK="${MACHINE_RANK:-${ARNOLD_ID:-0}}"
         MAIN_PROCESS_IP="${MAIN_PROCESS_IP:-${ARNOLD_WORKER_0_HOST:-127.0.0.1}}"
@@ -68,7 +68,7 @@ lance_setup_distributed_env() {
             echo "多机任务使用平台 rendezvous 端口: $MAIN_PROCESS_PORT"
         fi
     else
-        echo "使用本地环境配置"
+        echo "使用本地或显式配置的分布式环境"
         NUM_MACHINES="${NUM_MACHINES:-1}"
         MACHINE_RANK="${MACHINE_RANK:-0}"
         MAIN_PROCESS_IP="${MAIN_PROCESS_IP:-127.0.0.1}"

@@ -230,7 +230,7 @@ class ValidationDataset(Dataset):
 
     def get_video_tensor_online(self, media_url, vision_stream, worker_id=0, element_dtype="image") -> torch.Tensor:
         self.vision_stream = vision_stream
-        video_stream = media_url  # BytesIO(self.tos_cli.get_obj_by_url(media_url))
+        video_stream = media_url
 
         if element_dtype == "image":
             image = Image.open(video_stream)
@@ -248,20 +248,10 @@ class ValidationDataset(Dataset):
             video_reader = VideoReader(video_stream, ctx=decord.cpu(worker_id % self.cpu_count))
             total_frames = len(video_reader)
 
-            sampler_name = self.frame_sampler.__class__.__name__
-            if sampler_name == "MultiClipsFrameSampler":
-                frames_info = {
-                    "clip_indices": [(0, total_frames)],  # 左闭右开 默认为单个clip
-                    "fps": 24,  # 默认为24
-                }
-            elif sampler_name == "FixedFrameSampler":
-                frames_info = {
-                    "start_frame": 0,
-                    "end_frame": total_frames,
-                    "total_frames": total_frames,
-                }
-            else:
-                raise ValueError(f"Not verified frame sampler type: {sampler_name}")
+            frames_info = {
+                "clip_indices": [(0, total_frames)],
+                "fps": 24,
+            }
 
             frames_sampler_output: FrameSamplerOutput = self.frame_sampler(frames_info)
             video_frames = self._read_decord(video_reader, frames_sampler_output.indices)
@@ -1066,7 +1056,6 @@ class ValidationDataset(Dataset):
                             caption_i = "You are a helpful assistant. " + caption_i
                         element = [caption_i, caption_q, caption_a]
 
-                        print('element',element)
                         # ====================== SP1 + SP2 处理 END ======================
 
                         caption_i, caption_q, caption_a = element[0], element[1], element[2]
