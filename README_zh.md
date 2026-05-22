@@ -165,7 +165,7 @@ snapshot_download(cache_dir=cache_dir,
 
 ### 推理
 
-#### 方式一：配置并运行统一推理脚本
+#### 基本用法
 
 ```bash
 bash inference_lance.sh
@@ -176,9 +176,9 @@ bash inference_lance.sh
 - **注意：** 对于所有任务，建议在编写输入 prompt 时参考提供示例中的 `prompt` 格式，这通常有助于获得更好的生成效果。
 
 
-#### Option 2: 运行任务专用一键脚本
+#### 任务示例
 
-##### 文本-视频生成
+##### 文生视频
 
 ```bash
 bash inference_lance.sh \
@@ -191,7 +191,7 @@ bash inference_lance.sh \
   --SAVE_PATH_GEN results/t2v
 ```
 
-##### 文本-图像生成
+##### 文生图
 
 ```bash
 bash inference_lance.sh \

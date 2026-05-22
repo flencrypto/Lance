@@ -166,7 +166,7 @@ snapshot_download(cache_dir=cache_dir,
 
 ### Inference
 
-#### Option 1: Configure and Run the Unified Script
+#### Basic Usage
 
 ```bash
 bash inference_lance.sh
@@ -176,9 +176,9 @@ bash inference_lance.sh
 - **Supported tasks:** `t2i`, `t2v`, `image_edit`, `video_edit`, `x2t_image`, and `x2t_video`. You can modify `TASK_DEFAULT_CONFIGS` in `inference_lance.py` to customize the default data samples for each task.
 - **Note:** For all tasks, we recommend following the `prompt` format used in the provided examples when writing input prompts, as this typically leads to better generation quality.
 
-#### Option 2: Configure and Run the Unified Script
+#### Task Examples
 
-##### Text-to-Video Generation
+##### Text-to-Video
 
 ```bash
 bash inference_lance.sh \
@@ -191,7 +191,7 @@ bash inference_lance.sh \
   --SAVE_PATH_GEN results/t2v
 ```
 
-##### Text-to-Image Generation
+##### Text-to-Image
 
 ```bash
 bash inference_lance.sh \
