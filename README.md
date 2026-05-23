@@ -121,7 +121,7 @@ We are actively updating and improving this repository. If you find any bugs or 
 First, clone the repository:
 
 ```bash
-git clone https://github.com/bytedance-seed/Lance.git
+git clone https://github.com/bytedance/Lance.git
 cd Lance
 ```
 

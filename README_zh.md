@@ -122,7 +122,7 @@
 首先，克隆代码仓库：
 
 ```bash
-git clone https://github.com/bytedance-seed/Lance.git
+git clone https://github.com/bytedance/Lance.git
 cd Lance
 ```
 
