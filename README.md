@@ -116,6 +116,13 @@ We are actively updating and improving this repository. If you find any bugs or 
 - **Software:** Python 3.10+, CUDA 12.4+ (required)
 - **Hardware:** A GPU with at least 40GB VRAM is required for inference
 
+We have tested the following dependency combinations on NVIDIA A100:
+
+- PyTorch 2.8.0 + cu126 + flash-attn 2.8.3
+- PyTorch 2.5.1 + cu124 + flash-attn 2.6.3
+
+The default installation commands use the PyTorch 2.8.0 + cu126 setup. For other GPU models, please choose and validate a PyTorch build and a matching `flash-attn` version according to your driver, CUDA runtime, Python version, and GPU architecture.
+
 ### Installation Steps
 
 First, clone the repository:
@@ -130,16 +137,16 @@ Then, set up the environment:
 ```bash
 conda create -n Lance python=3.11 -y
 conda activate Lance
-pip install torch==2.5.1+cu124 torchvision==0.20.1+cu124 torchaudio==2.5.1+cu124 --index-url https://download.pytorch.org/whl/cu124
+pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu126
 pip install -r requirements.txt
 pip install flash-attn==2.8.3 --no-build-isolation
 ```
 
-> **Note:** If installing `flash-attn` from source fails, you can install the prebuilt wheel instead:
->
+> **Note:** If installing `flash-attn` from source fails, you can install a prebuilt wheel instead. The wheelhouse below is from a third-party repository and is provided for **reference only**; please verify that any wheel you install matches your Python, PyTorch and CUDA versions.
+
 > ```bash
 > pip install --no-cache-dir --no-deps --force-reinstall \
-> "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3%2Bcu12torch2.5cxx11abiFALSE-cp311-cp311-linux_x86_64.whl"
+> "https://huggingface.co/strangertoolshf/flash_attention_2_wheelhouse/resolve/main/wheelhouse-flash_attn-2.8.3/linux_x86_64/torch2.8/cu12/abiTRUE/cp311/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl"
 > ```
 
 

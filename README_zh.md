@@ -116,6 +116,13 @@
 - **软件环境：** Python 3.10+，CUDA 12.4+（必需）
 - **硬件环境：** 推理至少需要一张显存不低于 40GB 的 GPU
 
+我们在 NVIDIA A100 上测试通过了以下依赖组合：
+
+- PyTorch 2.8.0 + cu126 + flash-attn 2.8.3
+- PyTorch 2.5.1 + cu124 + flash-attn 2.6.3
+
+默认安装命令使用 PyTorch 2.8.0 + cu126 环境。对于其他 GPU 型号，请根据驱动版本、CUDA runtime、Python 版本和 GPU 架构自行选择并验证匹配的 PyTorch 与 `flash-attn` 版本组合。
+
 
 ### 安装步骤
 
@@ -131,16 +138,16 @@ cd Lance
 ```bash
 conda create -n Lance python=3.11 -y
 conda activate Lance
-pip install torch==2.5.1+cu124 torchvision==0.20.1+cu124 torchaudio==2.5.1+cu124 --index-url https://download.pytorch.org/whl/cu124
+pip install torch==2.8.0 torchvision==0.23.0 torchaudio==2.8.0 --index-url https://download.pytorch.org/whl/cu126
 pip install -r requirements.txt
 pip install flash-attn==2.8.3 --no-build-isolation
 ```
 
-> **注意：** 如果从源码安装 `flash-attn` 失败，可以改为安装预编译 wheel：
+> **注意：** 如果从源码安装 `flash-attn` 失败，可以改为安装预编译 wheel。下面的 wheelhouse 来自第三方仓库，仅作为**参考提供**；请在安装前确认 wheel 与当前 Python、PyTorch 和 CUDA 版本匹配：
 >
 > ```bash
 > pip install --no-cache-dir --no-deps --force-reinstall \
-> "https://github.com/Dao-AILab/flash-attention/releases/download/v2.8.3/flash_attn-2.8.3%2Bcu12torch2.5cxx11abiFALSE-cp311-cp311-linux_x86_64.whl"
+> "https://huggingface.co/strangertoolshf/flash_attention_2_wheelhouse/resolve/main/wheelhouse-flash_attn-2.8.3/linux_x86_64/torch2.8/cu12/abiTRUE/cp311/flash_attn-2.8.3+cu12torch2.8cxx11abiTRUE-cp311-cp311-linux_x86_64.whl"
 > ```
 
 然后，从 [Hugging Face 上的 Lance-3B](https://huggingface.co/bytedance-research/Lance) 下载所需的全部模型权重，并放置到 `downloads/` 目录下：
