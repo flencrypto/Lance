@@ -35,6 +35,13 @@
 
 > **Note:** Lance is a research project rather than a polished product model. The released checkpoint was trained with up to 128 A100 GPUs, with training conducted up to 768x768 image generation and 480p, 12 FPS video generation. Our goal is to share a research artifact for studying unified image/video understanding, generation, and editing under a relatively small model and limited compute budget. Output quality may vary across prompts, resolutions, duration, motion complexity, and editing scenarios, and we see further opportunities to improve the post-training recipe. We appreciate constructive feedback from the community as we continue improving the project.
 
+## 🔥 Updates
+
+- **`2026/05/26`**: 🎨 The Gradio interface now supports image and video generation, editing, and understanding. [Try it out](assets/docs/changelog/2026-05-26.md)!
+- **`2026/05/25`**: ✨ The [Hugging Face Space](https://huggingface.co/spaces/bytedance-research/Lance) is now live, thanks to the HF team!
+- **`2026/05/19`**: 🤗 The technical report is now available on [arXiv](http://arxiv.org/abs/2605.18678).
+- **`2026/05/18`**: 🔥 We launched the [project homepage](https://lance-project.github.io/) and released the initial inference code and model weights on [GitHub](https://github.com/bytedance/Lance/) and [Hugging Face](https://huggingface.co/bytedance-research/Lance).
+
 ## 🌟 Highlights
 
 **Lance** is a 3B native unified multimodal model that supports **image and video understanding, generation, and editing** within a single framework.
@@ -47,6 +54,11 @@ We are actively updating and improving this repository. If you find any bugs or 
 <div align="center">
   <img src="assets/benchmarks/benchmark-overview.png" alt="Lance benchmark overview across image generation, image editing, video generation, and video understanding" width="980">
 </div>
+
+## 📅 Roadmap
+
+- [ ] Release the fine-tuning code.
+- [ ] Add support for image-to-video generation code.
 
 ## 🎨 Demo
 
@@ -254,6 +266,9 @@ bash inference_lance.sh \
   --SAVE_PATH_GEN results/x2t_image
 ```
 
+<details>
+<summary><strong>Show task and parameter reference</strong></summary>
+
 #### Available Tasks
 
 | Task Name              | Description                                      | Example JSON                                 |
@@ -286,9 +301,14 @@ You can configure the following hyperparameters at the top of the `inference_lan
 | `VIDEO_HEIGHT` / `VIDEO_WIDTH`| `768` | Spatial resolution. *Unused for editing tasks (determined by input image/video).* |
 | `RESOLUTION` | `"video_480p"` | Base resolution preset (`image_768res` or `video_480p`). |
 
-### Gradio
+</details>
+
+### 🖥️ Gradio
+
+You can launch the local Gradio demo for video/image generation, editing, and understanding:
+
 ```bash
-python lance_gradio_t2v_v2t.py --gpus 0 --server-port 7860
+python lance_gradio.py --server-name 0.0.0.0 --server-port 7860
 ```
 
 ### Benchmarks
@@ -592,7 +612,7 @@ Ready-to-run benchmark scripts are provided under `benchmarks/`:
 
 ## 📄 License
 
-Copyright 2025 Bytedance Ltd. and/or its affiliates.
+Copyright 2025 ByteDance Ltd. and/or its affiliates.
 
 ## 🙏 Acknowledgements
 

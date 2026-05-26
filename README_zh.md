@@ -35,6 +35,13 @@
 
 > **注意：** Lance 是一个研究项目，而不是经过充分产品化打磨的模型。当前开源 checkpoint 使用不超过 128 张 A100 GPU 训练，训练阶段覆盖到 768x768 图像生成和 480p、12 FPS 视频生成。我们希望将 Lance 作为一个研究参考，分享在较小模型规模和相对有限算力下统一图像/视频理解、生成和编辑的建模思路、训练流程和推理代码。模型效果可能会随 prompt、分辨率、时长、运动复杂度和编辑场景而波动，post-training recipe 仍有进一步改进空间。我们欢迎社区提供建设性反馈，帮助项目持续改进。
 
+## 🔥 更新
+
+- **`2026/05/26`**: 🎨 Gradio 界面现已支持图像和视频生成、编辑与理解任务。[欢迎体验](assets/docs/changelog/2026-05-26.md)！
+- **`2026/05/25`**: ✨ [Hugging Face Space](https://huggingface.co/spaces/bytedance-research/Lance) 已上线，感谢 HF 团队的支持！
+- **`2026/05/19`**: 🤗 技术报告现已发布于 [arXiv](http://arxiv.org/abs/2605.18678)。
+- **`2026/05/18`**: 🔥 我们发布了 [项目主页](https://lance-project.github.io/)，并在 [GitHub](https://github.com/bytedance/Lance/) 和 [Hugging Face](https://huggingface.co/bytedance-research/Lance) 上开源了初版推理代码和模型权重。
+
 ## 🌟 亮点
 
 **Lance** 是一个3B参数、原生统一的多模态模型，在单一框架下同时支持 **图像与视频的理解、生成和编辑**。
@@ -47,6 +54,11 @@
 <div align="center">
   <img src="assets/benchmarks/benchmark-overview.png" alt="Lance benchmark overview across image generation, image editing, video generation, and video understanding" width="980">
 </div>
+
+## 📅 路线图
+
+- [ ] 发布 fine-tuning 代码。
+- [ ] 增加 image-to-video generation 代码支持。
 
 ## 🎨 演示
 
@@ -254,6 +266,9 @@ bash inference_lance.sh \
   --SAVE_PATH_GEN results/x2t_image
 ```
 
+<details>
+<summary><strong>展开任务和参数参考</strong></summary>
+
 #### 可用任务
 
 | 任务名 | 说明 | 示例 JSON |
@@ -286,9 +301,14 @@ bash inference_lance.sh \
 | `VIDEO_HEIGHT` / `VIDEO_WIDTH`| `768` | 空间分辨率。*编辑任务不使用该参数（由输入图像/视频决定）。* |
 | `RESOLUTION` | `"video_480p"` | 基础分辨率预设（如 `image_768res` 或 `video_480p`）。 |
 
-### Gradio
+</details>
+
+### 🖥️ Gradio
+
+你可以启动本地 Gradio demo，体验视频/图像生成、编辑和理解：
+
 ```bash
-python lance_gradio_t2v_v2t.py --gpus 0 --server-port 7860
+python lance_gradio.py --server-name 0.0.0.0 --server-port 7860
 ```
 
 ### 基准评测
@@ -592,7 +612,7 @@ python lance_gradio_t2v_v2t.py --gpus 0 --server-port 7860
 
 ## 📄 许可证
 
-Copyright 2025 Bytedance Ltd. and/or its affiliates.
+Copyright 2025 ByteDance Ltd. and/or its affiliates.
 
 ## 🙏 致谢
 
