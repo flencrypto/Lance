@@ -199,6 +199,7 @@ class ValidationDataset(Dataset):
             vit_data_mode=[],
             sample_task=[],
             sample_modality=[],
+            save_fps=12,
         )
         return sequence_status
 
@@ -238,10 +239,14 @@ class ValidationDataset(Dataset):
             video_reader = VideoReader(video_stream, ctx=decord.cpu(worker_id % self.cpu_count))
             total_frames = len(video_reader)
 
+            try:
+                fps = int(round(float(video_reader.get_avg_fps())))
+            except Exception:
+                fps = 24
             frames_info = {
-                "clip_indices": [(0, total_frames)],
-                "fps": 24,
-            }
+                    "clip_indices": [(0, total_frames)],
+                    "fps": fps,
+                }
 
             frames_sampler_output: FrameSamplerOutput = self.frame_sampler(frames_info)
             video_frames = self._read_decord(video_reader, frames_sampler_output.indices)

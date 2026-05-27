@@ -268,6 +268,7 @@ def validate_on_fixed_batch(
 
         # -------------------- Generation branch --------------------
         if inference_args.task in GENERATION_TASKS:
+            save_fps = int(val_data.get("save_fps", 12))
             params = {
                 "val_packed_text_ids": val_data["packed_text_ids"],
                 "val_packed_text_indexes": val_data["packed_text_indexes"],
@@ -324,7 +325,7 @@ def validate_on_fixed_batch(
                     v_list.append(vae_model.vae_decode([latent_])[0])
 
                 save_item_name = f"{index:06d}" if isinstance(index, int) else index
-                v_thwc = decode_video_tensor(v_list, save_path=save_path_gen, save_half=False, save_item_name=save_item_name)
+                v_thwc = decode_video_tensor(v_list, save_path=save_path_gen, save_half=False, save_item_name=save_item_name, save_fps=save_fps)
 
                 if v_thwc.shape[0] > 1:
                     prompt_data_path = f"{save_item_name}.mp4"
@@ -334,7 +335,7 @@ def validate_on_fixed_batch(
 
                 if save_source_video:
                     curr_padded_videos = padded_videos[i_val * 2 : (i_val + 1) * 2]
-                    v_thwc_gt = decode_video_tensor(curr_padded_videos[-1:], save_path=save_path_gt, save_item_name=save_item_name)
+                    v_thwc_gt = decode_video_tensor(curr_padded_videos[-1:], save_path=save_path_gt, save_item_name=save_item_name, save_fps=save_fps)
                     del curr_padded_videos, v_thwc_gt
 
                 del v_list, v_thwc, latent, target_latents

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import os
 import concurrent.futures
+import gc
+import ipaddress
 import threading
 import time
 import traceback
@@ -11,7 +13,37 @@ from datetime import datetime
 from pathlib import Path
 from typing import Optional
 
-os.environ.setdefault("PYTORCH_CUDA_ALLOC_CONF", "expandable_segments:True,max_split_size_mb:128")
+os.environ.setdefault(
+    "PYTORCH_CUDA_ALLOC_CONF",
+    os.getenv("LANCE_GRADIO_CUDA_ALLOC_CONF", "garbage_collection_threshold:0.8"),
+)
+
+def _sanitize_no_proxy_for_httpx() -> None:
+    for env_key in ("no_proxy", "NO_PROXY"):
+        value = os.environ.get(env_key)
+        if not value:
+            continue
+        safe_items = []
+        for item in value.split(","):
+            item = item.strip()
+            if not item:
+                continue
+            if "://" not in item and item.startswith("["):
+                end = item.find("]")
+                if end > 1:
+                    host = item[1:end]
+                    rest = item[end + 1:]
+                    is_bracketed_ipv6 = False
+                    try:
+                        is_bracketed_ipv6 = ipaddress.ip_address(host).version == 6
+                    except ValueError:
+                        pass
+                    if is_bracketed_ipv6 and (not rest or (rest.startswith(":") and rest[1:].isdigit())):
+                        item = host
+            safe_items.append(item)
+        os.environ[env_key] = ",".join(safe_items)
+
+_sanitize_no_proxy_for_httpx()
 
 from safetensors.torch import load_file
 import torch
@@ -265,6 +297,31 @@ class LanceT2VV2TPipeline:
                 f"[startup][gpu:{self.device}][{self.model_variant}] Lance multimodal Gradio model loaded and ready for reuse.",
                 flush=True,
             )
+
+    def unload(self) -> None:
+        with self._init_lock:
+            if self.model is not None:
+                self.model.cpu()
+            if self.vae_model is not None and hasattr(self.vae_model, "vae"):
+                vae_inner = self.vae_model.vae
+                if hasattr(vae_inner, "model"):
+                    vae_inner.model.cpu()
+
+            self.model = None
+            self.vae_model = None
+            self.vae_config = None
+            self.tokenizer = None
+            self.new_token_ids = None
+            self.image_token_id = None
+            self.base_model_args = None
+            self.base_data_args = None
+            self.base_inference_args = None
+            self.initialized = False
+            gc.collect()
+            if torch.cuda.is_available():
+                with torch.cuda.device(self.device):
+                    torch.cuda.empty_cache()
+                    torch.cuda.ipc_collect()
 
     def _build_request_batch(
         self,
@@ -568,6 +625,7 @@ class LanceT2VV2TPipeline:
                     "error": error_trace,
                 }
                 save_generation_record(record, save_dir)
+                clean_memory()
                 status = (
                     "Inference failed.\n\n"
                     f"- Task: `{internal_task}`\n"
@@ -637,6 +695,21 @@ class PipelinePool:
             self._available.append(pipeline)
             self._condition.notify()
 
+    def unload_all(self) -> None:
+        print(f"[runtime][{self.model_variant}] Unloading model pool from GPU(s): {self.gpu_ids}", flush=True)
+        with self._condition:
+            while len(self._available) != len(self.pipelines):
+                self._condition.wait()
+
+        for pipeline in self.pipelines:
+            pipeline.unload()
+
+        gc.collect()
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect()
+        print(f"[runtime][{self.model_variant}] Model pool unloaded.", flush=True)
+
     def generate(
         self,
         task: str,
@@ -673,36 +746,40 @@ class PipelinePool:
         finally:
             self.release(pipeline)
 
-PIPELINE_POOLS: dict[str, PipelinePool] = {}
+ACTIVE_PIPELINE_POOL: Optional[PipelinePool] = None
 ACTIVE_POOL_LOCK = threading.Lock()
 
 def get_task_model_variant(task: str) -> str:
     internal_task = normalize_task(task)
     return MODEL_VARIANT_IMAGE if internal_task in IMAGE_TASKS else MODEL_VARIANT_VIDEO
 
-def get_or_create_pipeline_pool(model_variant: str) -> PipelinePool:
+def get_pipeline_pool(task: str) -> PipelinePool:
+    global ACTIVE_PIPELINE_POOL
     if not torch.cuda.is_available():
         raise RuntimeError(
             "Lance inference requires a GPU. The Gradio UI can start on CPU, but generation is disabled "
             "until GPU hardware is attached."
         )
-    normalized_variant = normalize_model_variant(model_variant)
+    model_variant = get_task_model_variant(task)
     gpu_ids = parse_gpu_ids(os.getenv("LANCE_GPUS", DEFAULT_GPUS))
     with ACTIVE_POOL_LOCK:
-        pool = PIPELINE_POOLS.get(normalized_variant)
-        if pool is None:
-            pool = PipelinePool(gpu_ids, model_variant=normalized_variant)
-            PIPELINE_POOLS[normalized_variant] = pool
-        return pool
+        if ACTIVE_PIPELINE_POOL is not None and ACTIVE_PIPELINE_POOL.model_variant == model_variant:
+            if not ACTIVE_PIPELINE_POOL.is_initialized:
+                ACTIVE_PIPELINE_POOL.initialize_all()
+            return ACTIVE_PIPELINE_POOL
 
-def ensure_pipeline_pool_ready(model_variant: str) -> PipelinePool:
-    pool = get_or_create_pipeline_pool(model_variant)
-    if not pool.is_initialized:
-        pool.initialize_all()
-    return pool
+        if ACTIVE_PIPELINE_POOL is not None:
+            previous_variant = ACTIVE_PIPELINE_POOL.model_variant
+            print(
+                f"[runtime] Switching Lance model from {previous_variant} to {model_variant}.",
+                flush=True,
+            )
+            ACTIVE_PIPELINE_POOL.unload_all()
+            ACTIVE_PIPELINE_POOL = None
 
-def get_pipeline_pool(task: str) -> PipelinePool:
-    return ensure_pipeline_pool_ready(get_task_model_variant(task))
+        ACTIVE_PIPELINE_POOL = PipelinePool(gpu_ids, model_variant=model_variant)
+        ACTIVE_PIPELINE_POOL.initialize_all()
+        return ACTIVE_PIPELINE_POOL
 
 def run_task(
     task: str,
