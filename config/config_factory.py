@@ -223,13 +223,14 @@ class InferenceArguments(TrainingArguments):
     video_height:               int = 480
     video_width:                int = 480
     num_frames:                 int = 50
-    task:                       str = "t2v"  # t2v / t2i / edit / idip ...
+    task:                       str = "t2v"  # t2v / t2i / i2v / edit / ...
     resolution:                 str = "video_360p"  # image_256res, image_512res, video_192p, video_360p, etc.
     text_template:              bool = False  # Whether to use the system_prompt text template.
     max_duration:               float = 6.0  # Maximum video duration in seconds.
 
     system_prompt_type:         str = "SP0"  # options: SP1, SP2 ...
     use_KVcache:                bool = False
+    enhance_prompt:             bool = False  # Rewrite T2V prompts before inference when enabled.
 
 
 @dataclass

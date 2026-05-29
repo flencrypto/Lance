@@ -60,6 +60,7 @@ RESULT_JSON_FILENAME = "result.json"
 INTERNAL_VALIDATION_MAX_SAMPLES = 100000
 TASK_T2V = "t2v"
 TASK_T2I = "t2i"
+TASK_I2V = "i2v"
 TASK_X2T_IMAGE = "x2t_image"
 TASK_X2T_VIDEO = "x2t_video"
 TASK_IMAGE_EDIT = "image_edit"
@@ -67,6 +68,7 @@ TASK_VIDEO_EDIT = "video_edit"
 GENERATION_TASKS = {
     TASK_T2V,
     TASK_T2I,
+    TASK_I2V,
     TASK_IMAGE_EDIT,
     TASK_VIDEO_EDIT,
 }
@@ -84,6 +86,11 @@ TASK_DEFAULT_CONFIGS = {
         "model_family": "video",
         "example_json": "config/examples/t2v_example.json",
         "save_path_prefix": "results/t2v_sample",
+    },
+    TASK_I2V: {
+        "model_family": "video",
+        "example_json": "config/examples/i2v_example.json",
+        "save_path_prefix": "results/i2v_sample",
     },
     TASK_IMAGE_EDIT: {
         "model_family": "image",
@@ -149,7 +156,7 @@ def clean_memory(*objects):
     gc.collect()
     if torch.cuda.is_available():
         torch.cuda.empty_cache()
-
+        torch.cuda.ipc_collect()
 
 def apply_inference_defaults(
     model_args: ModelArguments,
@@ -314,7 +321,7 @@ def validate_on_fixed_batch(
 
             # Decode.
             for i_val, latent in enumerate(denoise_latent):
-                if inference_args.task in {TASK_IMAGE_EDIT, TASK_VIDEO_EDIT}:
+                if inference_args.task in {TASK_I2V, TASK_IMAGE_EDIT, TASK_VIDEO_EDIT}:
                     target_latents = [latent[-1]]
                 else:
                     target_latents = latent
@@ -539,7 +546,7 @@ def main():
         # Make sure this stays False.
         model_args.tie_word_embeddings = False
         llm_config.tie_word_embeddings = False
-    else: # HACK!!!
+    else: 
         assert model.language_model.get_input_embeddings().weight.data.data_ptr() != model.language_model.get_output_embeddings().weight.data.data_ptr(), 'tie_word_embeddings conflict'
 
     model = model.to(device=DEVICE, dtype=torch.bfloat16)
@@ -580,6 +587,12 @@ def main():
     dataset_config.task = inference_args.task
     dataset_config.resolution = inference_args.resolution
     dataset_config.text_template = inference_args.text_template
+    dataset_config.enhance_prompt = inference_args.enhance_prompt
+    if inference_args.enhance_prompt:
+        if inference_args.task not in {TASK_T2V, TASK_I2V}:
+            log_rank0("[startup] enhance_prompt is enabled but only applies to t2v and i2v; skipping prompt rewrite for this task.")
+        else:
+            log_rank0(f"[startup] enhance_prompt is enabled for {inference_args.task} prompts. Configure API_KEY in common/utils/caption_rewrite.py.")
     val_dataset = ValidationDataset(
         jsonl_path= data_args.val_dataset_config_file,
         tokenizer=tokenizer,

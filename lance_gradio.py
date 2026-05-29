@@ -208,7 +208,7 @@ class LanceT2VV2TPipeline:
             if inference_args.visual_gen:
                 stage_start = time.perf_counter()
                 print(f"[startup][gpu:{self.device}] Initializing VAE", flush=True)
-                vae_model = WanVideoVAE()
+                vae_model = WanVideoVAE(device=torch.device("cuda", self.device))
                 vae_config = deepcopy(vae_model.vae_config)
                 self._log_stage("VAE init", stage_start)
             else:
@@ -456,6 +456,7 @@ class LanceT2VV2TPipeline:
             request_inference_args.task = internal_task
             request_inference_args.text_template = TEXT_TEMPLATE
             request_inference_args.prompt_data_dict = {}
+            request_inference_args.offload_vae_during_denoise = True
 
             try:
                 print(
