@@ -37,7 +37,7 @@
 
 ## 🔥 Updates
 
-- **`2026/05/29`**: 💪 Added code support for Text-Image-to-Video (First-Frame-to-Video). [More to see](assets/docs/changelog/2026-05-29.md)!
+- **`2026/05/29`**: 💪 Added support for Image-to-Video generation. [More to see](assets/docs/changelog/2026-05-29.md)!
 - **`2026/05/26`**: 🎨 The Gradio interface now supports image and video generation, editing, and understanding. [Try it out](assets/docs/changelog/2026-05-26.md)!
 - **`2026/05/25`**: ✨ The [Hugging Face Space](https://huggingface.co/spaces/bytedance-research/Lance) is now live, thanks to the HF team!
 - **`2026/05/19`**: 🤗 The technical report is now available on [arXiv](http://arxiv.org/abs/2605.18678).
@@ -213,7 +213,7 @@ bash inference_lance.sh \
   --SAVE_PATH_GEN results/t2v
 ```
 
-##### Text-Image-to-Video
+##### Image-to-Video
 
 ```bash
 bash inference_lance.sh \
@@ -297,7 +297,7 @@ Optional parameters for all task examples:
 |------------------------|--------------------------------------------------|----------------------------------------------|
 | `t2v`                  | Text-to-Video generation                         | `config/examples/t2v_example.json`           |
 | `t2i`                  | Text-to-Image generation                         | `config/examples/t2i_example.json`           |
-| `i2v`                 | First-Frame-to-Video generation                  | `config/examples/i2v_example.json`          |
+| `i2v`                 | Image-to-Video generation                        | `config/examples/i2v_example.json`          |
 | `image_edit`           | Image editing                                    | `config/examples/image_edit_example.json`    |
 | `video_edit`           | Video editing                                    | `config/examples/video_edit_example.json`    |
 | `x2t_image`            | Image understanding            | `config/examples/x2t_image_example.json`    |
